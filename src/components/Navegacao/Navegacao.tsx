@@ -1,7 +1,12 @@
 import { type JSX } from "react";
 import { Menubar } from 'primereact/menubar';
 import type { MenuItem } from 'primereact/menuitem';
-import { Avatar } from 'primereact/avatar';
+import AuthRequests from '../../fetch/AuthRequests';
+import { useState } from 'react';
+
+
+
+
 
 interface CustomMenuItem extends MenuItem {
     badge?: number;
@@ -10,6 +15,21 @@ interface CustomMenuItem extends MenuItem {
 }
 
 function Navegacao(): JSX.Element {
+    const [isAuthenticated, setIsAuthenticated] = useState(() => {
+        const isAuth = localStorage.getItem('isAuth');
+        const token = localStorage.getItem('token');
+        return !!(isAuth && token && AuthRequests.checkTokenExpiry());
+    });
+
+    const [email] = useState(() => {
+        return localStorage.getItem('email') ?? '';
+    });
+
+    const logout = () => {
+        AuthRequests.removeToken();
+        setIsAuthenticated(false);
+    }
+
     const items: CustomMenuItem[] = [
         {
             label: 'Home',
@@ -48,24 +68,31 @@ function Navegacao(): JSX.Element {
 
     const end = (
         <div className="flex align-items-center gap-2">
-            <p className="text-white content-center pr-[0.5rem]">Amy Elsner</p>
-            <Avatar
-                image="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png"
-                shape="circle"
-                className="mr-10 !w-[25%] !h-[25%]"
-            />
+            {isAuthenticated ? (
+                <>
+                    <p className="text-white content-center pr-[0.5rem]">Olá, {email}</p>
+                    <button onClick={logout} className="text-white content-center pr-[0.5rem]">Sair</button>
+                </>
+            ) : (
+                <a href="/login" className="text-white content-center pr-[0.5rem]">Login</a>
+
+                
+            )}
+          
         </div>
     );
 
     return (
         <header className="card h-[12vh] bg-slate-700 content-center">
             <Menubar 
-                model={items} 
+                model={isAuthenticated ? items : [items[0]]} 
                 start={start} 
                 end={end} 
             />
         </header>
     );
+
+    
 }
 
 export default Navegacao;
