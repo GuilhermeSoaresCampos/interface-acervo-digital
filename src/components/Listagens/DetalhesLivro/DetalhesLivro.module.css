@@ -1,0 +1,320 @@
+/* Container Principal */
+.mainContainer {
+    background-color: #e5e7eb;
+    flex: 1;
+    padding: clamp(1rem, 5vw, 2rem) clamp(0.75rem, 5vw, 1.5rem);
+    overflow-y: auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Card Container */
+.card {
+    background: white;
+    border-radius: clamp(8px, 3vw, 12px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: clamp(1rem, 5vw, 2rem);
+    width: 100%;
+    max-width: 56rem;
+    margin: 0 auto;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.cardTitle {
+    font-size: clamp(1.25rem, 5vw, 1.875rem);
+    font-weight: bold;
+    margin-bottom: clamp(1rem, 3vw, 1.5rem);
+    color: #1f2937;
+    word-break: break-word;
+}
+
+/* Animação de fade-in */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Tag */
+.tag {
+    display: inline-block;
+    background-color: #dbeafe;
+    color: #0369a1;
+    padding: clamp(0.5rem, 2vw, 0.75rem) clamp(0.75rem, 2vw, 1rem);
+    border-radius: 4px;
+    font-size: clamp(0.8rem, 2vw, 0.95rem);
+    font-weight: 600;
+}
+
+/* Divisor */
+.divider {
+    border: none;
+    border-top: 1px solid #d1d5db;
+    margin: clamp(1rem, 3vw, 1.5rem) 0;
+}
+
+/* Grid de Informações */
+.infoGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(1rem, 4vw, 1.75rem);
+    padding: clamp(0.5rem, 2vw, 0.75rem);
+}
+
+/* Media query: tablets (768px e acima) */
+@media (min-width: 768px) {
+    .infoGrid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* Seção de Informações */
+.infoSection {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1rem, 3vw, 1.25rem);
+}
+
+.infoSectionTitle {
+    font-size: clamp(1rem, 4vw, 1.25rem);
+    font-weight: 600;
+    color: #0369a1;
+    display: flex;
+    align-items: center;
+    gap: clamp(0.5rem, 2vw, 0.75rem);
+}
+
+.infoSectionTitle i {
+    color: #3b82f6;
+    font-size: clamp(1rem, 3vw, 1.25rem);
+}
+
+/* Borda esquerda para seção de informações */
+.infoContent {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.75rem, 2vw, 1rem);
+    margin-left: clamp(2px, 1vw, 4px);
+    border-left: 2px solid #f0f9ff;
+    padding-left: clamp(0.75rem, 2vw, 1.25rem);
+}
+
+.infoItem {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.infoLabel {
+    font-size: clamp(0.7rem, 2vw, 0.85rem);
+    text-transform: uppercase;
+    color: #9ca3af;
+    font-weight: bold;
+    letter-spacing: 0.05em;
+    margin-bottom: clamp(2px, 1vw, 4px);
+}
+
+.infoValue {
+    color: #374151;
+    font-weight: 500;
+    word-break: break-word;
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    word-break: break-word;
+}
+
+.statusTag {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 4px;
+    width: fit-content;
+}
+
+.statusTagActive {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.statusTagInactive {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+/* Botões Container */
+.buttonsContainer {
+    padding: clamp(1.5rem, 4vw, 2rem) auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.75rem, 2vw, 1rem);
+}
+
+/* Botão */
+.button {
+    width: 100%;
+    padding: clamp(0.75rem, 2.5vw, 1rem) clamp(1rem, 3vw, 1.25rem);
+    border: none;
+    border-radius: clamp(6px, 2vw, 8px);
+    font-weight: bold;
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    min-height: 44px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.button:active {
+    transform: scale(0.95);
+}
+
+.buttonPrimary {
+    background-color: #374151;
+    color: white;
+}
+
+.buttonPrimary:hover {
+    background-color: #6b7280;
+}
+
+.buttonSecondary {
+    background-color: white;
+    color: black;
+    border: 1px solid #d1d5db;
+}
+
+.buttonSecondary:hover {
+    background-color: #6b7280;
+    color: white;
+}
+
+/* médios (768px - 1023px) */
+@media (min-width: 768px) {
+    .infoGrid {
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+    }
+
+    .buttonsContainer {
+        flex-direction: row;
+        gap: 1rem;
+    }
+
+    .buttonsContainer .button {
+        flex: 1;
+    }
+}
+
+/* Desktops (1024px e acima) */
+@media (min-width: 1024px) {
+    .mainContainer {
+        padding: 2.5rem 1.5rem;
+    }
+
+    .card {
+        padding: 2rem;
+    }
+
+    .infoGrid {
+        gap: 2.5rem;
+    }
+
+    .button {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+}
+
+/* Desktops grandes (1280px e acima) */
+@media (min-width: 1280px) {
+    .card {
+        padding: 2.5rem 3rem;
+        max-width: 64remm;
+    }
+
+    .cardTitle {
+        font-size: 32px;
+    }
+
+    .infoGrid {
+        gap: 40px;
+    }
+
+    .button {
+        padding: 14px 28px;
+    }
+}
+
+/* Dispositivos muito pequenos (320px - 480px) */
+@media (max-width: 480px) {
+    .mainContainer {
+        padding: 16px 12px;
+        min-height: 100vh;
+    }
+
+    .card {
+        padding: 16px;
+        border-radius: 8px;
+    }
+
+    .cardTitle {
+        font-size: 18px;
+        margin-bottom: 12px;
+    }
+
+    .infoSectionTitle {
+        font-size: 16px;
+    }
+
+    .infoLabel {
+        font-size: 11px;
+    }
+
+    .infoValue {
+        font-size: 14px;
+    }
+
+    .button {
+        padding: 10px 14px;
+        font-size: 14px;
+    }
+
+    .tag {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+
+    .divider {
+        margin: 12px 0;
+    }
+
+    .infoContent {
+        gap: 10px;
+        padding-left: 12px;
+    }
+
+    .infoItem {
+        gap: 2px;
+    }
+}
+
+/* Modo retrato em tablets */
+@media (orientation: portrait) and (min-width: 768px) and (max-width: 1023px) {
+    .infoGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Modo paisagem em tablets */
+@media (orientation: landscape) and (min-width: 768px) and (max-width: 1023px) {
+    .infoGrid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
