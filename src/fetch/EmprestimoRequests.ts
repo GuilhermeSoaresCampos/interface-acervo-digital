@@ -34,7 +34,27 @@ class EmprestimoRequests {
             return;
         }
     }
-async obtePorId(id_emprestimo: number): Promise<EmprestimoDTO | undefined> {
+
+    async enviarFormularioEmprestimo(formEmprestimo: Record<string, unknown>): Promise<boolean> {
+        try {
+            const token = localStorage.getItem('token');
+            const respostaAPI = await fetch(`${this.serverUrl}${this.endpointEmprestimo}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-access-token': `${token}`
+                },
+                body: JSON.stringify(formEmprestimo)
+            });
+
+            return respostaAPI.ok;
+        } catch (error) {
+            console.error(`Erro ao cadastrar emprestimo. ${error}`);
+            return false;
+        }
+    }
+
+    async obtePorId(id_emprestimo: number): Promise<EmprestimoDTO | undefined> {
         try {
             const token = localStorage.getItem('token');
             const respostaAPI = await fetch(`${this.serverUrl}${this.endpointEmprestimo}/${id_emprestimo}`, {

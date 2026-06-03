@@ -5,7 +5,7 @@ import LivroRequests from "../../../fetch/LivroRequests";
 import { useNavigate } from "react-router-dom";
 
 function ListagemLivros(): JSX.Element {
-    const [livros, setLivros] = useState<LivroDTO []>([]);
+    const [livros, setLivros] = useState<LivroDTO[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 5;
     const navigate = useNavigate();
@@ -16,8 +16,8 @@ function ListagemLivros(): JSX.Element {
                 const listaDeLivros = await LivroRequests.obterListaDeLivros();
                 setLivros(listaDeLivros);
             } catch (error) {
-                console.error(`Erro ao buscar livro. ${error}`);
-                alert("Erro ao criar a listagem de livro.");
+                console.error(`Erro ao buscar livros. ${error}`);
+                alert("Erro ao criar a listagem de livros.");
             }
         }
 
@@ -36,7 +36,7 @@ function ListagemLivros(): JSX.Element {
         <main className="bg-gray-200 flex-1 flex flex-col px-4 sm:px-6 md:px-10 py-6 md:py-10 overflow-hidden"> {/* overflow-hidden no main para conter o scroll interno */}
             <div className="w-full max-w-7xl mx-auto flex flex-col sm:flex-row items-center gap-4 mb-6 md:mb-8 flex-shrink-0">
                 <h1 className="flex-1 text-xl sm:text-2xl md:text-3xl text-center sm:text-left font-bold text-slate-800">Livros</h1>
-                <a href="#" className="w-full sm:w-auto px-4 py-2 md:px-6 md:py-3 text-sm md:text-base bg-slate-700 rounded-md text-center text-white font-bold flex items-center justify-center hover:cursor-pointer hover:bg-slate-600 transition-all shadow-md hover:shadow-lg active:scale-95">
+                <a href="/cadastro/livro" className="w-full sm:w-auto px-4 py-2 md:px-6 md:py-3 text-sm md:text-base bg-slate-700 rounded-md text-center text-white font-bold flex items-center justify-center hover:cursor-pointer hover:bg-slate-600 transition-all shadow-md hover:shadow-lg active:scale-95">
                     Novo livro
                 </a>
             </div>
@@ -49,21 +49,21 @@ function ListagemLivros(): JSX.Element {
                         <thead className="bg-slate-700 sticky top-0 z-10 shadow-sm">
                             <tr>
                                 <th className="border-b border-slate-600 text-white p-3 md:p-4 hidden md:table-cell text-left">ID</th>
-                                <th className="border-b border-slate-600 text-white p-3 md:p-4 text-left">RA</th>
-                                <th className="border-b border-slate-600 text-white p-3 md:p-4 text-left">Nome</th>
-                                <th className="border-b border-slate-600 text-white p-3 md:p-4 hidden sm:table-cell text-left">E-mail</th>
-                                <th className="border-b border-slate-600 text-white p-3 md:p-4 hidden lg:table-cell text-left">Telefone</th>
+                                <th className="border-b border-slate-600 text-white p-3 md:p-4 text-left">Título</th>
+                                <th className="border-b border-slate-600 text-white p-3 md:p-4 hidden sm:table-cell text-left">Editora</th>
+                                <th className="border-b border-slate-600 text-white p-3 md:p-4 hidden lg:table-cell text-left">Autor</th>
+                                <th className="border-b border-slate-600 text-white p-3 md:p-4 hidden lg:table-cell text-left">Disponível</th>
                                 <th className="border-b border-slate-600 text-white p-3 md:p-4 text-center">Ações</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-200">
                             {currentLivros && currentLivros.length > 0 ? (
                                 currentLivros.map((livro) => (
-                                    <tr className="text-center md:text-left transition-colors hover:bg-slate-50 group" key={livro.titulo}>
+                                    <tr className="text-center md:text-left transition-colors hover:bg-slate-50 group" key={livro.id_livro ?? livro.titulo}>
                                         <td className="p-3 md:p-4 hidden md:table-cell text-slate-500">{livro.id_livro}</td>
-                                        <td className="p-3 md:p-4 font-medium text-slate-700">{livro.autor}</td>
-                                        <td className="p-3 md:p-4 text-slate-700 font-semibold">{livro.titulo} {livro.ano_publicacao}</td>
+                                        <td className="p-3 md:p-4 font-medium text-slate-700">{livro.titulo}</td>
                                         <td className="p-3 md:p-4 hidden sm:table-cell text-slate-600">{livro.editora}</td>
+                                        <td className="p-3 md:p-4 hidden lg:table-cell text-slate-600">{livro.autor}</td>
                                         <td className="p-3 md:p-4 hidden lg:table-cell text-slate-600">{livro.quant_disponivel}</td>
                                         <td className="p-2 md:p-4">
                                             <div className="flex flex-col sm:flex-row items-center justify-center gap-1 md:gap-2">
@@ -74,7 +74,9 @@ function ListagemLivros(): JSX.Element {
                                                     Detalhes
                                                 </button>
                                                 <button className="w-full sm:w-auto bg-emerald-100 text-emerald-700 px-3 py-1.5 rounded-md text-xs md:text-sm font-medium hover:bg-emerald-600 hover:text-white transition-all">Atualizar</button>
-                                                <button className="w-full sm:w-auto bg-red-100 text-red-700 px-3 py-1.5 rounded-md text-xs md:text-sm font-medium hover:bg-red-600 hover:text-white transition-all">Deletar</button>
+                                                <button className="w-full sm:w-auto bg-red-100 text-red-700 px-3 py-1.5 rounded-md text-xs md:text-sm font-medium hover:bg-red-600 hover:text-white transition-all">
+                                                    Deletar
+                                                </button>
                                             </div>
                                         </td>
                                     </tr>

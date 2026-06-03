@@ -35,6 +35,25 @@ class LivroRequests {
         }
     }
 
+    async enviarFormularioLivro(formLivro: LivroDTO): Promise<boolean> {
+        try {
+            const token = localStorage.getItem('token');
+            const respostaAPI = await fetch(`${this.serverUrl}${this.endpointLivro}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-access-token': `${token}`
+                },
+                body: JSON.stringify(formLivro)
+            });
+
+            return respostaAPI.ok;
+        } catch (error) {
+            console.error(`Erro ao cadastrar livro. ${error}`);
+            return false;
+        }
+    }
+
     async obterlivroPorId(id_livro: number): Promise<LivroDTO | undefined> {
         try {
             const token = localStorage.getItem('token');

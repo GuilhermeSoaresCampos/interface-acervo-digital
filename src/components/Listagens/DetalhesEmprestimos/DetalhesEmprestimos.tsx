@@ -4,8 +4,8 @@ import { Skeleton } from "primereact/skeleton";
 import { Tag } from "primereact/tag";
 import { Divider } from "primereact/divider";
 import { Message } from "primereact/message";
-import AlunoRequests from "../../../fetch/AlunoRequests";
-import type AlunoDTO from "../../../dto/AlunoDTO";
+import EmprestimoRequests from "../../../fetch/EmprestimoRequests";
+import type EmprestimoDTO from "../../../dto/EmprestimoDTO";
 import { useNavigate } from "react-router-dom";
 
 interface DetalhesEmprestimoProps {
@@ -13,11 +13,11 @@ interface DetalhesEmprestimoProps {
 }
 
 /**
- * Componente que exibe os detalhes de um emprestimo.
+ * Componente que exibe os detalhes de um empréstimo.
  * Faz a consulta à API com base no ID fornecido e monta a visualização.
  */
 function DetalhesEmprestimo({ id_emprestimo }: DetalhesEmprestimoProps): JSX.Element {
-    const [aluno, setAluno] = useState<AlunoDTO | null>(null);
+    const [emprestimo, setEmprestimo] = useState<EmprestimoDTO | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
@@ -28,15 +28,15 @@ function DetalhesEmprestimo({ id_emprestimo }: DetalhesEmprestimoProps): JSX.Ele
             setError(null);
 
             try {
-                const dados = await AlunoRequests.obterAlunoPorId(id_emprestimo);
+                const dados = await EmprestimoRequests.obtePorId(id_emprestimo);
                 if (dados) {
-                    setAluno(dados);
+                    setEmprestimo(dados);
                 } else {
-                    setError("emprestimo não encontrado.");
+                    setError("Empréstimo não encontrado.");
                 }
             } catch (err) {
-                console.error("Erro ao carregar detalhes do emprestimo:", err);
-                setError("Ocorreu um erro ao buscar as informações do emprestimo.");
+                console.error("Erro ao carregar detalhes do empréstimo:", err);
+                setError("Ocorreu um erro ao buscar as informações do empréstimo.");
             } finally {
                 setLoading(false);
             }
@@ -72,7 +72,7 @@ function DetalhesEmprestimo({ id_emprestimo }: DetalhesEmprestimoProps): JSX.Ele
     }
 
     // Renderização do estado de erro
-    if (error || !aluno) {
+    if (error || !emprestimo) {
         return (
             <div className="flex justify-center p-4">
                 <Message severity="error" text={error || "Erro desconhecido."} />
@@ -80,59 +80,87 @@ function DetalhesEmprestimo({ id_emprestimo }: DetalhesEmprestimoProps): JSX.Ele
         );
     }
 
-    // Renderização dos detalhes do aluno
+    // Renderização dos detalhes do empréstimo
     return (
         <main className="bg-gray-200 flex-1 py-6 sm:py-10 px-4 overflow-y-auto">
-            <Card title={`${aluno.nome} ${aluno.sobrenome}`} className="shadow-lg animate-fade-in transition-all duration-300 w-full max-w-4xl p-4 sm:p-6 md:p-8 mx-auto font-bold text-xl">
+            <Card title={`Empréstimo #${emprestimo.id_emprestimo}`} className="shadow-lg animate-fade-in transition-all duration-300 w-full max-w-4xl p-4 sm:p-6 md:p-8 mx-auto font-bold text-xl">
                 <div className="flex flex-col gap-2">
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
-                        <span className="text-gray-500 font-medium tracking-tight">Registro Acadêmico (RA)</span>
-                        <Tag value={aluno.ra} severity="info" className="px-3 py-1" />
+                        <span className="text-gray-500 font-medium tracking-tight">Status do empréstimo</span>
+                        <Tag
+                            value={emprestimo.status_emprestimo ?? "Sem status"}
+                            severity={emprestimo.status_emprestimo_registro ? "success" : "warning"}
+                            className="px-3 py-1"
+                        />
                     </div>
 
                     <Divider />
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-2">
-                        {/* Seção de Informações Pessoais */}
                         <div className="flex flex-col gap-4">
                             <h3 className="text-lg font-semibold text-primary-700 flex items-center gap-2">
-                                <i className="pi pi-user text-blue-500"></i> Informações Pessoais
+                                <i className="pi pi-book text-blue-500"></i> Dados do Empréstimo
                             </h3>
                             <div className="flex flex-col gap-3 ml-1 border-l-2 border-blue-50 relative pl-4">
                                 <div className="flex flex-col">
-                                    <span className="text-xs uppercase text-gray-400 font-bold tracking-wider">Data de Nascimento</span>
-                                    <span className="text-gray-700 font-medium">{new Date(aluno.data_nascimento).toLocaleDateString('pt-BR')}</span>
+                                    <span className="text-xs uppercase text-gray-400 font-bold tracking-wider">Data de Empréstimo</span>
+                                    <span className="text-gray-700 font-medium">{emprestimo.data_emprestimo ? new Date(emprestimo.data_emprestimo).toLocaleDateString('pt-BR') : "--"}</span>
                                 </div>
                                 <div className="flex flex-col">
-                                    <span className="text-xs uppercase text-gray-400 font-bold tracking-wider">E-mail Acadêmico</span>
-                                    <span className="text-gray-700 font-medium break-all">{aluno.email}</span>
+                                    <span className="text-xs uppercase text-gray-400 font-bold tracking-wider">Data de Devolução</span>
+                                    <span className="text-gray-700 font-medium">{emprestimo.data_devolucao ? new Date(emprestimo.data_devolucao).toLocaleDateString('pt-BR') : "Não devolvido"}</span>
                                 </div>
                                 <div className="flex flex-col">
-                                    <span className="text-xs uppercase text-gray-400 font-bold tracking-wider">Status do emprestimo</span>
+                                    <span className="text-xs uppercase text-gray-400 font-bold tracking-wider">Registro ativo</span>
                                     <Tag
-                                        value={aluno.status_aluno ? "Ativo" : "Inativo"}
-                                        severity={aluno.status_aluno ? "success" : "danger"}
+                                        value={emprestimo.status_emprestimo_registro ? "Ativo" : "Inativo"}
+                                        severity={emprestimo.status_emprestimo_registro ? "success" : "danger"}
                                         className="w-fit mt-1 rounded-sm"
                                     />
                                 </div>
                             </div>
                         </div>
 
-                        {/* Seção de Contato e Localização */}
                         <div className="flex flex-col gap-4">
                             <h3 className="text-lg font-semibold text-primary-700 flex items-center gap-2">
-                                <i className="pi pi-map-marker text-orange-500"></i> Contato e Localização
+                                <i className="pi pi-user text-orange-500"></i> Dados do Aluno
                             </h3>
                             <div className="flex flex-col gap-3 ml-1 border-l-2 border-orange-50 relative pl-4">
                                 <div className="flex flex-col">
-                                    <span className="text-xs uppercase text-gray-400 font-bold tracking-wider">Celular / Telefone</span>
-                                    <span className="text-gray-700 font-medium">
-                                        {aluno.celular ? aluno.celular : "Não informado"}
-                                    </span>
+                                    <span className="text-xs uppercase text-gray-400 font-bold tracking-wider">Nome</span>
+                                    <span className="text-gray-700 font-medium">{`${emprestimo.aluno?.nome ?? ""} ${emprestimo.aluno?.sobrenome ?? ""}`.trim() || "--"}</span>
                                 </div>
                                 <div className="flex flex-col">
-                                    <span className="text-xs uppercase text-gray-400 font-bold tracking-wider">Endereço Residencial</span>
-                                    <span className="text-gray-700 font-medium leading-relaxed">{aluno.endereco}</span>
+                                    <span className="text-xs uppercase text-gray-400 font-bold tracking-wider">RA</span>
+                                    <span className="text-gray-700 font-medium">{emprestimo.aluno?.ra ?? "--"}</span>
+                                </div>
+                                <div className="flex flex-col">
+                                    <span className="text-xs uppercase text-gray-400 font-bold tracking-wider">E-mail</span>
+                                    <span className="text-gray-700 font-medium break-all">{emprestimo.aluno?.email ?? "--"}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <Divider />
+
+                    <div className="grid grid-cols-1 gap-6 p-2">
+                        <div className="flex flex-col gap-4">
+                            <h3 className="text-lg font-semibold text-primary-700 flex items-center gap-2">
+                                <i className="pi pi-bookmark text-green-500"></i> Dados do Livro
+                            </h3>
+                            <div className="flex flex-col gap-3 ml-1 border-l-2 border-green-50 relative pl-4">
+                                <div className="flex flex-col">
+                                    <span className="text-xs uppercase text-gray-400 font-bold tracking-wider">Título</span>
+                                    <span className="text-gray-700 font-medium">{emprestimo.livro?.titulo ?? "--"}</span>
+                                </div>
+                                <div className="flex flex-col">
+                                    <span className="text-xs uppercase text-gray-400 font-bold tracking-wider">Autor</span>
+                                    <span className="text-gray-700 font-medium">{emprestimo.livro?.autor ?? "--"}</span>
+                                </div>
+                                <div className="flex flex-col">
+                                    <span className="text-xs uppercase text-gray-400 font-bold tracking-wider">Editora</span>
+                                    <span className="text-gray-700 font-medium">{emprestimo.livro?.editora ?? "--"}</span>
                                 </div>
                             </div>
                         </div>
@@ -140,25 +168,19 @@ function DetalhesEmprestimo({ id_emprestimo }: DetalhesEmprestimoProps): JSX.Ele
                 </div>
 
                 <style>{`
-                .animate-fade-in {
-                    animation: fadeIn 0.5s ease-out;
-                }
-                @keyframes fadeIn {
-                    from { opacity: 0; transform: translateY(10px); }
-                    to { opacity: 1; transform: translateY(0); }
-                }
-            `}</style>
+                    .animate-fade-in {
+                        animation: fadeIn 0.5s ease-out;
+                    }
+                    @keyframes fadeIn {
+                        from { opacity: 0; transform: translateY(10px); }
+                        to { opacity: 1; transform: translateY(0); }
+                    }
+                `}</style>
             </Card>
             <div className="w-full max-w-4xl mx-auto mt-6 sm:mt-8">
                 <button
                     className="w-full bg-slate-700 hover:bg-slate-500 text-white px-4 py-3 md:mb-2 rounded-md font-bold transition-all shadow-md active:scale-95"
-                    onClick={() => navigate(`/atualizar/aluno/${aluno.id_aluno}`)}
-                >
-                    Editar emprestimo
-                </button>
-                <button
-                    className="w-full bg-white text-black hover:bg-slate-500 px-4 py-3 rounded-md font-bold transition-all shadow-md active:scale-95"
-                    onClick={() => navigate(`/lista/alunos`)}
+                    onClick={() => navigate(`/lista/emprestimos`)}
                 >
                     Voltar
                 </button>

@@ -8,6 +8,11 @@ import PEmprestimo from './pages/PListagem/PEmprestimo/PEmprestimo'
 import PDetalhesAluno from './pages/PDetalhes/PDetalhesAluno/PDetalhesAluno'
 import PDetalhesEmprestimos from './pages/PDetalhes/PDetalhesEmprestimos/PDetalhesEmprestimos'
 import PDetalhesLivro from './pages/PDetalhes/PDetalhesLivro/PDetalhesLivro'
+import PCadastroAluno from './pages/PCadastro/PCadastroAluno/PCadastroAluno'
+import PCadastroLivro from './pages/PCadastro/PCadastroLivro/PCadastroLivro'
+import PCadastroEmprestimo from './pages/PCadastro/PCadastroEmprestimo/PCadastroEmprestimo'
+
+
 
 function App() {
 
@@ -22,7 +27,9 @@ function App() {
         <Route path='/detalhes/aluno/:id_aluno' element={<PDetalhesAluno />} />
         <Route path='/detalhes/emprestimo/:id_emprestimo' element={<PDetalhesEmprestimos />} />
         <Route path='/detalhes/livro/:id_livro' element={<PDetalhesLivro />} />  {/* Rota para detalhes do livro, recebe o ID do livro como parâmetro */}
-
+        <Route path='/cadastro/aluno' element={<PCadastroAluno />} />
+        <Route path='/cadastro/livro' element={<PCadastroLivro />} />
+        <Route path='/cadastro/emprestimo' element={<PCadastroEmprestimo />} />
       </Routes> 
     </BrowserRouter>
   )
