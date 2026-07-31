@@ -6,7 +6,7 @@ class AlunoRequests {
     private endpointAluno;
 
     constructor() {
-        this.serverURL = `http://localhost:3333`;
+        this.serverURL = `https://api-acervo-digital.onrender.com`;
         this.endpointAluno = `/api/alunos`;
     }
 
@@ -75,6 +75,32 @@ class AlunoRequests {
         } catch (error) {
             console.error(`Erro ao fazer consulta à API. ${error}`);
             return false;
+        }
+    }
+
+    async removerAluno(id_aluno: number): Promise<boolean> {
+        try {
+            const token = localStorage.getItem('token');
+            const respostaAPI = await fetch(`${this.serverURL}${this.endpointAluno}/${id_aluno}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-access-token': `${token}`
+                }
+            });
+
+            if (!respostaAPI.ok) {
+                const errorData = await respostaAPI.json().catch(() => ({}));
+                const errorMessage = errorData.mensagem || `Erro ${respostaAPI.status}: ${respostaAPI.statusText}`;
+                throw new Error(errorMessage);
+            }
+
+            console.info(`${respostaAPI.status} ${respostaAPI.statusText}`);
+
+            return true;
+        } catch (error) {
+            console.error(`Erro ao fazer consulta à API. ${error}`);
+            throw error;
         }
     }
 }

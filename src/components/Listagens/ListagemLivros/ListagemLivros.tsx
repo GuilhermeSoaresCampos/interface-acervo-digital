@@ -32,6 +32,24 @@ function ListagemLivros(): JSX.Element {
 
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
+    const handleRemoverLivro = async (id_livro: number) => {
+        const confirmar = window.confirm("Você realmente deseja remover este registro?");
+        if (confirmar) {
+            try {
+                const sucesso = await LivroRequests.removerLivro(id_livro);
+                if (sucesso) {
+                    alert("Livro removido com sucesso");
+                    setLivros(livros.filter(l => l.id_livro !== id_livro));
+                } else {
+                    alert("Não foi possível remover o registro.");
+                }
+            } catch (error) {
+                console.error("Erro ao remover livro:", error);
+                alert("Erro ao remover livro.");
+            }
+        }
+    };
+
     return (
         <main className="bg-gray-200 flex-1 flex flex-col px-4 sm:px-6 md:px-10 py-6 md:py-10 overflow-hidden"> {/* overflow-hidden no main para conter o scroll interno */}
             <div className="w-full max-w-7xl mx-auto flex flex-col sm:flex-row items-center gap-4 mb-6 md:mb-8 flex-shrink-0">
@@ -74,7 +92,8 @@ function ListagemLivros(): JSX.Element {
                                                     Detalhes
                                                 </button>
                                                 <button className="w-full sm:w-auto bg-emerald-100 text-emerald-700 px-3 py-1.5 rounded-md text-xs md:text-sm font-medium hover:bg-emerald-600 hover:text-white transition-all">Atualizar</button>
-                                                <button className="w-full sm:w-auto bg-red-100 text-red-700 px-3 py-1.5 rounded-md text-xs md:text-sm font-medium hover:bg-red-600 hover:text-white transition-all">
+                                                <button className="w-full sm:w-auto bg-red-100 text-red-700 px-3 py-1.5 rounded-md text-xs md:text-sm font-medium hover:bg-red-600 hover:text-white transition-all"
+                                                    onClick={() => livro.id_livro && handleRemoverLivro(livro.id_livro)}>
                                                     Deletar
                                                 </button>
                                             </div>
