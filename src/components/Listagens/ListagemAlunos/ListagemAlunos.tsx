@@ -92,13 +92,13 @@ function ListagemAlunos(): JSX.Element {
                                                     Detalhes
                                                 </button>
                                                 <button
-                                                    className="w-full sm:w-auto bg-emerald-100 text-emerald-700 px-3 py-1.5 rounded-md text-xs md:text-sm font-medium hover:bg-emerald-600 hover:text-white transition-all"
+                                                    className="w-full sm:w-auto bg-emerald-100 text-emerald-700 px-3 py-1.5 rounded-md text-xs md:text-sm font-medium hover:bg-emerald-600 hover:text-white transition-all hover:cursor-pointer"
                                                     onClick={() => navigate(`/atualizar/aluno/${aluno.id_aluno}`)}
                                                 >
                                                     Atualizar
                                                 </button>
                                                 <button
-                                                    className="w-full sm:w-auto bg-red-100 text-red-700 px-3 py-1.5 rounded-md text-xs md:text-sm font-medium hover:bg-red-600 hover:text-white transition-all"
+                                                    className="w-full sm:w-auto bg-red-100 text-red-700 px-3 py-1.5 rounded-md text-xs md:text-sm font-medium hover:bg-red-600 hover:text-white transition-all hover:cursor-pointer"
                                                     onClick={() => aluno.id_aluno && handleRemoverAluno(aluno.id_aluno)}
                                                 >
                                                     Deletar
