@@ -76,6 +76,30 @@ class EmprestimoRequests {
         }
     }
 
+    async enviarFormularioAtualizacaoEmprestimo(id_emprestimo: number, formEmprestimo: Record<string, unknown>): Promise<boolean> {
+        try {
+            const token = localStorage.getItem('token');
+            const respostaAPI = await fetch(`${this.serverUrl}${this.endpointEmprestimo}/${id_emprestimo}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-access-token': `${token}`
+                },
+                body: JSON.stringify(formEmprestimo)
+            });
+
+            if (!respostaAPI.ok) {
+                const errorData = await respostaAPI.json().catch(() => ({}));
+                throw new Error(errorData.mensagem || `Erro ${respostaAPI.status}: ${respostaAPI.statusText}`);
+            }
+
+            return true;
+        } catch (error) {
+            console.error(`Erro ao atualizar empréstimo. ${error}`);
+            throw error;
+        }
+    }
+
         async removerEmprestimo(id_emprestimo: number): Promise<boolean> {
             try {
                 const token = localStorage.getItem('token');

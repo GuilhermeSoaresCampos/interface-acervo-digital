@@ -39,7 +39,7 @@ function FormLivro() {
 
     return (
         <main className="bg-gray-100 flex-1 py-8 sm:py-12 px-4 sm:px-6 lg:px-8 overflow-y-auto">
-            <div className="max-w-3xl mx-auto">
+            <div className="w-full max-w-6xl mx-auto">
                 <form onSubmit={handleSubmit} className="bg-white shadow-2xl rounded-2xl p-6 sm:p-10 border border-slate-200">
                     <h1 className="text-3xl sm:text-4xl md:text-5xl text-center font-bold text-slate-800 mb-8 sm:mb-12">
                         Cadastro de Livro

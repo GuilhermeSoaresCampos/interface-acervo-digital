@@ -78,6 +78,32 @@ class AlunoRequests {
         }
     }
 
+    async enviarFormularioAtualizacaoAluno(id_aluno: number, formAluno: AlunoDTO): Promise<boolean> {
+        try {
+            const token = localStorage.getItem('token');
+            const respostaAPI = await fetch(`${this.serverURL}${this.endpointAluno}/${id_aluno}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-access-token': `${token}`
+                },
+                body: JSON.stringify(formAluno)
+            });
+
+            if (!respostaAPI.ok) {
+                const errorData = await respostaAPI.json().catch(() => ({}));
+                const errorMessage = errorData.mensagem || `Erro ${respostaAPI.status}: ${respostaAPI.statusText}`;
+                throw new Error(errorMessage);
+            }
+
+            console.info(`${respostaAPI.status} ${respostaAPI.statusText}`);
+            return true;
+        } catch (error) {
+            console.error(`Erro ao atualizar aluno. ${error}`);
+            throw error;
+        }
+    }
+
     async removerAluno(id_aluno: number): Promise<boolean> {
         try {
             const token = localStorage.getItem('token');

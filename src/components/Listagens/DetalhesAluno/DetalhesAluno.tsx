@@ -83,7 +83,7 @@ function DetalhesAluno({ id_aluno }: DetalhesAlunoProps): JSX.Element {
     // Renderização dos detalhes do aluno
     return (
         <main className="bg-gray-200 flex-1 py-6 sm:py-10 px-4 overflow-y-auto">
-            <Card title={`${aluno.nome} ${aluno.sobrenome}`} className="shadow-lg animate-fade-in transition-all duration-300 w-full max-w-4xl p-4 sm:p-6 md:p-8 mx-auto font-bold text-xl">
+            <Card title={`${aluno.nome} ${aluno.sobrenome}`} className="shadow-lg animate-fade-in transition-all duration-300 w-full max-w-6xl p-4 sm:p-6 md:p-8 mx-auto font-bold text-xl">
                 <div className="flex flex-col gap-2">
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
                         <span className="text-gray-500 font-medium tracking-tight">Registro Acadêmico (RA)</span>
@@ -149,7 +149,7 @@ function DetalhesAluno({ id_aluno }: DetalhesAlunoProps): JSX.Element {
                 }
             `}</style>
             </Card>
-            <div className="w-full max-w-4xl mx-auto mt-6 sm:mt-8">
+            <div className="w-full max-w-6xl mx-auto mt-6 sm:mt-8">
                 <button
                     className="w-full bg-slate-700 hover:bg-slate-500 text-white px-4 py-3 md:mb-2 rounded-md font-bold transition-all shadow-md active:scale-95"
                     onClick={() => navigate(`/atualizar/aluno/${aluno.id_aluno}`)}

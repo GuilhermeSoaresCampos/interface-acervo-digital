@@ -76,6 +76,30 @@ class LivroRequests {
         }
     }
 
+    async enviarFormularioAtualizacaoLivro(id_livro: number, formLivro: LivroDTO): Promise<boolean> {
+        try {
+            const token = localStorage.getItem('token');
+            const respostaAPI = await fetch(`${this.serverUrl}${this.endpointLivro}/${id_livro}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-access-token': `${token}`
+                },
+                body: JSON.stringify(formLivro)
+            });
+
+            if (!respostaAPI.ok) {
+                const errorData = await respostaAPI.json().catch(() => ({}));
+                throw new Error(errorData.mensagem || `Erro ${respostaAPI.status}: ${respostaAPI.statusText}`);
+            }
+
+            return true;
+        } catch (error) {
+            console.error(`Erro ao atualizar livro. ${error}`);
+            throw error;
+        }
+    }
+
     async removerLivro(id_livro: number): Promise<boolean> {
         try {
             const token = localStorage.getItem('token');
